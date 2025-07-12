@@ -1,0 +1,17 @@
+from django import forms
+
+class CursoForm(forms.Form):
+    nombre = forms.CharField()
+    descripcion = forms.CharField(widget=forms.Textarea, required=False)
+    duracion_semanas = forms.IntegerField(min_value=1, initial=4)
+    fecha_inicio = forms.DateField(
+        widget=forms.DateInput(attrs={'type': 'date'}))
+    activo = forms.BooleanField(required=False, initial=True)
+
+class EstudianteForm(forms.Form):
+    nombre = forms.CharField(max_length=50)
+    apellido = forms.CharField(max_length=50)
+    email = forms.EmailField()
+    edad = forms.IntegerField(min_value=1)
+    fecha_inscripcion = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), required=False)  # Auto-filled by the model
+    

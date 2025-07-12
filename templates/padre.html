@@ -14,11 +14,12 @@
 {% endblock %}
     <!-- Cuerpo principal -->
     <main style="padding: 40px 20px; max-width: 900px; margin: 0 auto; text-align: center;">
+        {% block content %}
         <h2 style="font-size: 2em; margin-bottom: 20px;">¿Qué puedes hacer aquí?</h2>
         <p style="font-size: 1.1em; line-height: 1.6; margin-bottom: 30px;">
-            Este sitio está construido con Django y diseñado para ser el punto de partida de algo increíble.
-            Puedes personalizarlo como quieras, agregar nuevas funcionalidades o simplemente usarlo como base para tus ideas.
+            En este sitio, puedes explorar una variedad de cursos diseñados para ayudarte a aprender nuevas habilidades. Desde programación hasta diseño gráfico, tenemos algo para todos. ¡Únete a nuestra comunidad y comienza tu viaje de aprendizaje hoy mismo!
         </p>
+        {% endblock %}
         <a href="#" style="display: inline-block; background-color: #4a90e2; color: white; padding: 15px 30px; border-radius: 8px; text-decoration: none; font-size: 1em; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
             ¡Comienza ahora!
         </a>
