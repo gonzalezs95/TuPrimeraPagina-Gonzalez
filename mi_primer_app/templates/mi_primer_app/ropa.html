@@ -1,0 +1,33 @@
+{% extends "padre.html"%}
+
+{% block title %} Ropa {% endblock %}
+
+ {% block content %}
+
+ <h2> Buscar Ropa</h2>
+
+ {% if mensaje %}
+     <p>{{ mensaje }}</p>
+ {% endif %}
+
+ {% if error %}
+     <p style="color: red;">{{ error }}</p>
+ {% endif %}
+ <form method="GET" action="{% url 'buscar-ropa' %}">
+     {% csrf_token %}
+     <input type="text" name="nombre" placeholder="Buscar ropa..." value="{{ nombre }}">
+     <button type="submit">Buscar</button>
+ </form>
+
+    <h2>Ropa: </h2>
+    <ul>
+        {% for ropa in ropa %}
+            <li>{{ ropa.nombre }} - {{ ropa.tipo }} - {{ ropa.talla }} - {{ ropa.color }}</li>
+        {% empty %}
+            <li>No hay ropa disponible.</li>
+        {% endfor %}
+    </ul>
+
+    <a href="{% url 'crear-ropa' %}">Agregar ropa</a>
+
+ {% endblock %}

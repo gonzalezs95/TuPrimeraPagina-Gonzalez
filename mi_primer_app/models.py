@@ -30,4 +30,14 @@ class Estudiante(models.Model):
 
   def __str__(self):
     return f"{self.nombre} {self.apellido} ({self.email}) - Edad: {self.edad}, Inscrito el: {self.fecha_inscripcion}"
+
+class Ropa(models.Model):
+    nombre = models.CharField(max_length=50)
+    sexo = models.CharField(choices=[('M', 'Masculino'), ('F', 'Femenino')], max_length=1)
+    tipo = models.CharField(max_length=50)
+    talla = models.CharField(max_length=10)
+    color = models.CharField(max_length=20)
+
+    def __str__(self):
+        return f"{self.nombre} ({self.tipo}) - Talla: {self.talla}, Color: {self.color}"
      

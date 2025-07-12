@@ -14,4 +14,11 @@ class EstudianteForm(forms.Form):
     email = forms.EmailField()
     edad = forms.IntegerField(min_value=1)
     fecha_inscripcion = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), required=False)  # Auto-filled by the model
+
+class RopaForm(forms.Form):
+    nombre = forms.CharField(max_length=50)
+    sexo = forms.ChoiceField(choices=[('M', 'Masculino'), ('F', 'Femenino')])
+    tipo = forms.CharField(max_length=50)
+    talla = forms.CharField(max_length=10)
+    color = forms.CharField(max_length=20)
     

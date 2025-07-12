@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect
 
-from .models import Familiar, Curso, Estudiante
+from .models import Familiar, Curso, Estudiante, Ropa
 
 from django.http import HttpResponse
 
-from .forms import CursoForm, EstudianteForm
+from .forms import CursoForm, EstudianteForm, RopaForm
 
 def inicio(request):
     return render(request, 'mi_primer_app/inicio.html')
@@ -41,7 +41,7 @@ def crear_curso(request):
                 activo=form.cleaned_data['activo']
             )
             nuevo_curso.save()
-            return redirect('inicio')
+            return redirect('cursos')
 
     else:
         form = CursoForm()
@@ -65,3 +65,43 @@ def crear_estudiante(request):
     else:
         form = EstudianteForm()
         return render(request, 'mi_primer_app/crear_estudiante.html', {'form': form})
+    
+def cursos(request):
+    cursos = Curso.objects.all()
+    return render(request, 'mi_primer_app/cursos.html', {'cursos': cursos})
+    
+def buscar_cursos(request):
+    if request.method == 'GET':
+        nombre = request.GET.get('nombre', '')
+        cursos = Curso.objects.filter(nombre__icontains=nombre)
+        return render(request, 'mi_primer_app/cursos.html', {'cursos': cursos, 'nombre_curso': nombre})
+    else:
+        return redirect('inicio')
+    
+def crear_ropa(request):
+    if request.method == 'POST':
+        form = RopaForm(request.POST)
+        if form.is_valid():
+            # Procesar el formulario
+            nueva_ropa = Ropa(
+                nombre=form.cleaned_data['nombre'],
+                sexo=form.cleaned_data['sexo'],
+                tipo=form.cleaned_data['tipo'],
+                talla=form.cleaned_data['talla'],
+                color=form.cleaned_data['color']
+            )
+            nueva_ropa.save()
+            return redirect('inicio')
+
+    else:
+        form = RopaForm()
+        return render(request, 'mi_primer_app/crear_ropa.html', {'form': form})
+
+def buscar_ropa(request):
+    if request.method == 'GET':
+        nombre = request.GET.get('nombre', '')
+        ropas = Ropa.objects.filter(nombre__icontains=nombre)
+        return render(request, 'mi_primer_app/ropa.html', {'ropas': ropas, 'nombre': nombre})
+    else:
+        return redirect('ropa')
+    
