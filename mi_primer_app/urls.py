@@ -1,6 +1,8 @@
 from django.urls import path
 
-from .views import saludo, saludo_con_template, crear_familiar, inicio, crear_curso, crear_estudiante, cursos, buscar_cursos, crear_ropa, buscar_ropa, crear_celular, buscar_celulares, celulares, estudiantes, buscar_estudiantes
+from .views import (saludo, saludo_con_template, crear_familiar, inicio, crear_curso, crear_estudiante,
+                     cursos, buscar_cursos, crear_ropa, buscar_ropa, crear_celular, buscar_celulares, celulares,
+                     estudiantes, buscar_estudiantes, AutoCreateView, AutoListView, AutoUpdateView, AutoDeleteView, AutoDetailView)
 
 urlpatterns = [
     path('', inicio, name= 'inicio'),
@@ -19,4 +21,13 @@ urlpatterns = [
     path('celulares/', celulares, name='celulares'),
     path('crear-celular/', crear_celular, name='crear-celular'),
     path('celulares/buscar', buscar_celulares, name='buscar-celulares'),
+    path('cursos/buscar', buscar_cursos, name='buscar-cursos'),
+    path('cursos/buscar', buscar_cursos, name='buscar-cursos'),
+
+    #urls con vistas basadas en clases
+    path('listar-autos/', AutoListView.as_view(), name='listar-autos'),
+    path('crear-auto/', AutoCreateView.as_view(), name='crear-auto'),
+    path('detalle-auto/<int:pk>/', AutoDetailView.as_view(), name='detalle-auto'),
+    path('editar-auto/<int:pk>/', AutoUpdateView.as_view(), name='editar-auto'),
+    path('eliminar-auto/<int:pk>/', AutoDeleteView.as_view(), name='eliminar-auto'),
 ]

@@ -1,4 +1,5 @@
 from django import forms
+from .models import Auto
 
 class CursoForm(forms.Form):
     nombre = forms.CharField()
@@ -29,3 +30,10 @@ class CelularForm(forms.Form):
     fecha_lanzamiento = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
     estado = forms.ChoiceField(choices=[('Nuevo', 'Nuevo'), ('Usado', 'Usado')])
     
+class AutoForm(forms.ModelForm):
+    class Meta:
+        model = Auto
+        fields = ['marca', 'modelo', 'descripcion']
+        widgets = {
+            'descripcion': forms.Textarea(attrs={'rows': 3, 'cols': 40}),
+        }

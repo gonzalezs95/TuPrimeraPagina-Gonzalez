@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
+from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 
-from .models import Familiar, Curso, Estudiante, Ropa, Celular
+from .models import Familiar, Curso, Estudiante, Ropa, Celular, Auto
 
 from django.http import HttpResponse
 
-from .forms import CursoForm, EstudianteForm, RopaForm, CelularForm
+from .forms import CursoForm, EstudianteForm, RopaForm, CelularForm, AutoForm
 
 def inicio(request):
     return render(request, 'mi_primer_app/inicio.html')
@@ -152,3 +154,28 @@ def buscar_celulares(request):
     else:
         return redirect('celulares')
     
+class AutoListView(ListView):
+    model = Auto
+    template_name = 'mi_primer_app/listar_autos.html'
+    context_object_name = 'autos'
+class AutoCreateView(CreateView):
+    model = Auto
+    form_class = AutoForm
+    template_name = 'mi_primer_app/crear_auto.html'
+    success_url = reverse_lazy('listar-autos')
+
+class AutoUpdateView(UpdateView):
+    model = Auto
+    form_class = AutoForm
+    template_name = 'mi_primer_app/crear_auto.html'
+    success_url = reverse_lazy('listar-autos')
+
+class AutoDeleteView(DeleteView):
+    model = Auto
+    template_name = 'mi_primer_app/eliminar_auto.html'
+    success_url = reverse_lazy('listar-autos')
+
+class AutoDetailView(DetailView):
+    model = Auto
+    template_name = 'mi_primer_app/detalle_auto.html'
+    context_object_name = 'auto'

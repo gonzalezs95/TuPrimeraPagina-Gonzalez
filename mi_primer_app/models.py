@@ -50,3 +50,11 @@ class Celular(models.Model):
 
     def __str__(self):
         return f"{self.marca} {self.modelo} - Precio: {self.precio}, Lanzado el: {self.fecha_lanzamiento}"
+
+class Auto(models.Model):
+    marca = models.CharField(max_length=50)
+    modelo = models.CharField(max_length=50)
+    descripcion = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.marca} {self.modelo}"
