@@ -1,3 +1,3 @@
 # Proyecto Django
 
-Este proyecto esta desarrollando django
+Este proyecto esta desarrollando django.
