@@ -65,6 +65,18 @@ def crear_estudiante(request):
     else:
         form = EstudianteForm()
         return render(request, 'mi_primer_app/crear_estudiante.html', {'form': form})
+
+def buscar_estudiantes(request):
+    if request.method == 'GET':
+        nombre = request.GET.get('nombre', '')
+        estudiantes = Estudiante.objects.filter(nombre__icontains=nombre)
+        return render(request, 'mi_primer_app/estudiantes.html', {'estudiantes': estudiantes, 'nombre': nombre})
+    else:
+        return redirect('inicio')
+
+def estudiantes(request):
+    estudiantes = Estudiante.objects.all()
+    return render(request, 'mi_primer_app/estudiantes.html', {'estudiantes': estudiantes})
     
 def cursos(request):
     cursos = Curso.objects.all()
