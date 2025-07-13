@@ -41,3 +41,12 @@ class Ropa(models.Model):
     def __str__(self):
         return f"{self.nombre} ({self.tipo}) - Talla: {self.talla}, Color: {self.color}"
      
+class Celular(models.Model):
+    marca = models.CharField(max_length=50)
+    modelo = models.CharField(max_length=50)
+    precio = models.DecimalField(max_digits=10, decimal_places=2)
+    fecha_lanzamiento = models.DateField()
+    estado = models.CharField(choices=[('Nuevo', 'Nuevo'), ('Usado', 'Usado')], max_length=10)
+
+    def __str__(self):
+        return f"{self.marca} {self.modelo} - Precio: {self.precio}, Lanzado el: {self.fecha_lanzamiento}"

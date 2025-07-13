@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect
 
-from .models import Familiar, Curso, Estudiante, Ropa
+from .models import Familiar, Curso, Estudiante, Ropa, Celular
 
 from django.http import HttpResponse
 
-from .forms import CursoForm, EstudianteForm, RopaForm
+from .forms import CursoForm, EstudianteForm, RopaForm, CelularForm
 
 def inicio(request):
     return render(request, 'mi_primer_app/inicio.html')
@@ -77,6 +77,10 @@ def buscar_cursos(request):
         return render(request, 'mi_primer_app/cursos.html', {'cursos': cursos, 'nombre_curso': nombre})
     else:
         return redirect('inicio')
+
+def ropa(request):
+    ropas = Ropa.objects.all()
+    return render(request, 'mi_primer_app/ropa.html', {'ropas': ropas})
     
 def crear_ropa(request):
     if request.method == 'POST':
@@ -103,5 +107,36 @@ def buscar_ropa(request):
         ropas = Ropa.objects.filter(nombre__icontains=nombre)
         return render(request, 'mi_primer_app/ropa.html', {'ropas': ropas, 'nombre': nombre})
     else:
-        return redirect('ropa')
+        return redirect('inicio')
+    
+def celulares(request):
+    celulares = Celular.objects.all()
+    return render(request, 'mi_primer_app/celulares.html', {'celulares': celulares})
+
+def crear_celular(request):
+    if request.method == 'POST':
+        form = CelularForm(request.POST)
+        if form.is_valid():
+            # Procesar el formulario
+            nuevo_celular = Celular(
+                marca=form.cleaned_data['marca'],
+                modelo=form.cleaned_data['modelo'],
+                precio=form.cleaned_data['precio'],
+                fecha_lanzamiento=form.cleaned_data['fecha_lanzamiento'],
+                estado=form.cleaned_data['estado']
+            )
+            nuevo_celular.save()
+            return redirect('inicio')
+
+    else:
+        form = CelularForm()
+        return render(request, 'mi_primer_app/crear_celular.html', {'form': form})  
+
+def buscar_celulares(request):
+    if request.method == 'GET':
+        marca = request.GET.get('marca', '')
+        celulares = Celular.objects.filter(marca__icontains=marca)
+        return render(request, 'mi_primer_app/celulares.html', {'celulares': celulares, 'marca': marca})
+    else:
+        return redirect('celulares')
     

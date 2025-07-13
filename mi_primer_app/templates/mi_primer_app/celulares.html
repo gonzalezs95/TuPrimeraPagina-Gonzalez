@@ -1,10 +1,10 @@
 {% extends "padre.html"%}
 
-{% block title %} Cursos {% endblock %}
+{% block title %} Celulares {% endblock %}
 
  {% block content %}
 
- <h2> Buscar Curso</h2>
+ <h2> Buscar Celular</h2>
 
  {% if mensaje %}
      <p>{{ mensaje }}</p>
@@ -19,15 +19,15 @@
      <button type="submit">Buscar</button>
  </form>
 
-    <h2>Cursos: </h2>
+    <h2>Celulares: </h2>
     <ul>
-        {% for curso in cursos %}
-            <li>{{ curso.nombre }} - {{ curso.descripcion }}</li>
+        {% for celular in celular %}
+            <li>{{ celular.marca }} - {{ celular.modelo }}</li>
         {% empty %}
-            <li>No hay cursos disponibles.</li>
+            <li>No hay celulares disponibles.</li>
         {% endfor %}
     </ul>
 
-    <a href="{% url 'crear-curso' %}">Agregar curso</a>
+    <a href="{% url 'crear-celular' %}">Agregar celular</a>
 
  {% endblock %}

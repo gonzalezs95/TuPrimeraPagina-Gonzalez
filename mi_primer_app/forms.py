@@ -21,4 +21,11 @@ class RopaForm(forms.Form):
     tipo = forms.CharField(max_length=50)
     talla = forms.CharField(max_length=10)
     color = forms.CharField(max_length=20)
+
+class CelularForm(forms.Form):
+    marca = forms.CharField(max_length=50)
+    modelo = forms.CharField(max_length=50)
+    precio = forms.DecimalField(max_digits=10, decimal_places=2)
+    fecha_lanzamiento = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
+    estado = forms.ChoiceField(choices=[('Nuevo', 'Nuevo'), ('Usado', 'Usado')])
     
