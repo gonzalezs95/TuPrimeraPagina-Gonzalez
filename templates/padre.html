@@ -32,7 +32,13 @@
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'inicio' %}">Home</a></li>
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'cursos' %}">Cursos</a></li>
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'crear-curso' %}">Crear Curso</a></li>
-                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="contact.html">Contact</a></li>
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'login' %}">Login</a></li>
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'register' %}">Registro</a></li>
+                        <li class="nav-item"></li><form action="{% url "logout" %}" method="POST">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-primary">Logout</button>
+                        </form>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -44,7 +50,7 @@
                     <div class="col-md-10 col-lg-8 col-xl-7">
                         <div class="site-heading">
                             <h1>Clean Blog</h1>
-                            <span class="subheading">A Blog Theme by Start Bootstrap</span>
+                            <span class="subheading">Hola {{user.username}}! Bienvenido!</span>
                         </div>
                     </div>
                 </div>
