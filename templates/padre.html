@@ -15,14 +15,16 @@
         <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css" />
         <!-- Core theme CSS (includes Bootstrap)-->
-        {% comment %} <link rel="stylesheet" href="{% static 'css/styles.css' %}" /> {% endcomment %}
+        {% comment %} <link rel="stylesheet" href="{% static 'css/styles.css' %}">  {% endcomment %}
         <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
     </head>
     <body>
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
             <div class="container px-4 px-lg-5">
-                <a class="navbar-brand" href="{% url 'inicio' %}">Home</a>
+                   {% if user.avatar.imagen %}
+                        <img style="width: 100px; heigth: 100px" src="{{user.avatar.imagen.url}}" alt="">
+                    {% endif %}
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                     Menu
                     <i class="fas fa-bars"></i>
@@ -32,13 +34,19 @@
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'inicio' %}">Home</a></li>
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'cursos' %}">Cursos</a></li>
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'crear-curso' %}">Crear Curso</a></li>
-                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'login' %}">Login</a></li>
-                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'register' %}">Registro</a></li>
-                        <li class="nav-item"></li><form action="{% url "logout" %}" method="POST">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-primary">Logout</button>
-                        </form>
-                        </li>
+                        {% if user.is_authenticated %}
+                            <li class="nav-item">
+                                <form action="{% url "logout" %}" method="POST">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-primary">Logout</button>
+                                </form>
+                            </li>
+                      
+                        {% else %}
+                            <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'login' %}">Login</a></li>
+                            <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'register' %}">Registro</a></li>
+                        {% endif %}
+                        
                     </ul>
                 </div>
             </div>
@@ -55,17 +63,14 @@
                     </div>
                 </div>
             </div>
-        </header>
+        </header> 
         <!-- Main Content-->
         <div class="container px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-md-10 col-lg-8 col-xl-7">
                     {% block content %}
-
+                    
                     {% endblock %}
-                    <!-- Divider-->
-                    <hr class="my-4" />
-                    <!-- Pager-->
                 </div>
             </div>
         </div>
@@ -116,35 +121,57 @@
 {% comment %} <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>{% block title %}Inicio | Mi Sitio {% endblock %}</title>
+  <meta charset="UTF-8">
+  <title>{% block title %} Inicio - Mi Sitio Web {% endblock %}</title>
 
 </head>
-<body style="margin: 0; font-family: Arial, sans-serif; background: #f2f4f8; color: #333;">
-{% block header %}
-    <!-- Encabezado -->
-    <header style="background-color: #4a90e2; padding: 20px; text-align: center; color: white;">
-        <h1 style="margin: 0; font-size: 2.5em;">Bienvenido a Mi Sitio Web</h1>
-        <p style="margin-top: 10px; font-size: 1.2em;">Un lugar para aprender, explorar y crear</p>
-    </header>
-{% endblock %}
-    <!-- Cuerpo principal -->
-    <main style="padding: 40px 20px; max-width: 900px; margin: 0 auto; text-align: center;">
-        {% block content %}
-        <h2 style="font-size: 2em; margin-bottom: 20px;">¿Qué puedes hacer aquí?</h2>
-        <p style="font-size: 1.1em; line-height: 1.6; margin-bottom: 30px;">
-            En este sitio, puedes explorar una variedad de cursos diseñados para ayudarte a aprender nuevas habilidades. Desde programación hasta diseño gráfico, tenemos algo para todos. ¡Únete a nuestra comunidad y comienza tu viaje de aprendizaje hoy mismo!
-        </p>
-        {% endblock %}
-        <a href="#" style="display: inline-block; background-color: #4a90e2; color: white; padding: 15px 30px; border-radius: 8px; text-decoration: none; font-size: 1em; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-            ¡Comienza ahora!
-        </a>
-    </main>
+<body style="margin: 0; font-family: Arial, sans-serif; background: #f2f2f2; color: #333;">
 
-    <!-- Pie de página -->
-    <footer style="background-color: #222; color: #ccc; padding: 20px; text-align: center;">
-        <p style="margin: 0;">&copy; 2025 Mi Sitio Web. Todos los derechos reservados.</p>
-    </footer>
+ {% block header %}
+  <!-- Encabezado -->
+  <header style="background-color: #4CAF50; padding: 20px; text-align: center; color: white;">
+    <h1 style="margin: 0;">Hola Mundo</h1>
+    <p style="margin: 5px 0;">Tu lugar para aprender y descubrir</p>
+  </header>
+{% endblock %}
+  <!-- Contenido principal -->
+  <main style="padding: 40px; text-align: center;">
+    {% block content %}
+    <h2 style="color: #4CAF50;">¿Qué ofrecemos?</h2>
+    <p style="max-width: 600px; margin: 0 auto 30px;">
+      En nuestro sitio encontrarás recursos educativos, noticias de tecnología y herramientas útiles para tu día a día digital.
+    </p>
+    {% endblock %}
+    <a href="#servicios" style="display: inline-block; padding: 10px 20px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 5px;">
+      Ver más
+    </a>
+  </main>
+
+
+
+  <!-- Sección de servicios -->
+  <section id="servicios" style="background: white; padding: 40px 20px;">
+    <h3 style="text-align: center; color: #333;">Nuestros Servicios</h3>
+    <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 20px;">
+      <div style="background: #e8f5e9; padding: 20px; border-radius: 10px; width: 250px;">
+        <h4 style="margin-top: 0;">Tutoriales</h4>
+        <p>Guías paso a paso para aprender nuevas habilidades.</p>
+      </div>
+      <div style="background: #e3f2fd; padding: 20px; border-radius: 10px; width: 250px;">
+        <h4 style="margin-top: 0;">Noticias</h4>
+        <p>Últimas novedades sobre ciencia y tecnología.</p>
+      </div>
+      <div style="background: #fff3e0; padding: 20px; border-radius: 10px; width: 250px;">
+        <h4 style="margin-top: 0;">Herramientas</h4>
+        <p>Utilidades online que te facilitarán la vida.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pie de página -->
+  <footer style="background-color: #333; color: white; text-align: center; padding: 15px; margin-top: 40px;">
+    <p style="margin: 0;">&copy; 2025 Mi Sitio Web. Todos los derechos reservados.</p>
+  </footer>
 
 </body>
 </html>  {% endcomment %}
