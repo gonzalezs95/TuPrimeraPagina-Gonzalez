@@ -54,3 +54,8 @@ def register(request):
         form = RegisterForm()
 
     return render(request, 'tienda_padel/register.html', {'form': form})
+
+def eliminar_paleta(request, pk):
+    paleta = get_object_or_404(Paleta, pk=pk)
+    paleta.delete()
+    return redirect('tienda_padel:lista_paletas') 

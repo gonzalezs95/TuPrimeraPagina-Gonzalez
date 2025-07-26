@@ -29,8 +29,14 @@
         <a href="{% url 'detalle_paleta' pk=paleta.pk %}">Ver detalles</a>
     </div>
     {% endfor %}
+    
 
     <!-- Puedes incluir un archivo JavaScript si lo tienes -->
     <script src="{% static 'js/scripts.js' %}"></script>
 </body>
 </html>
+
+ return render(request, 'tienda_padel/lista_paletas.html', {'paletas': paletas})
+{% endfor %}
+{% block content %}
+{% endblock %}
