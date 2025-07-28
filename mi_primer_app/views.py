@@ -187,8 +187,17 @@ class AutoDetailView(DetailView):
     context_object_name = 'auto'
 
 def listar_paletas(request):
-    paletas = Paleta.objects.all().order_by('-created_at')
-    return render(request, 'mi_primer_app/listar_paletas.html', {'paletas': paletas})
+    query = request.GET.get('q')
+    if query:
+        paletas_list = Paleta.objects.filter(title__icontains=query).order_by('-created_at')
+    else:
+        paletas_list = Paleta.objects.all().order_by('-created_at')
+
+    paginator = Paginator(paletas_list, 6)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'mi_primer_app/listar_paletas.html', {'page_obj': page_obj, 'paletas': page_obj})
 
 @login_required
 def crear_paleta(request):
@@ -198,7 +207,7 @@ def crear_paleta(request):
             paleta = form.save(commit=False)
             paleta.author = request.user
             paleta.save()
-            return redirect('listar-paletas')
+            return redirect('listar-paletas')  # Aquí usamos listar-paletas
     else:
         form = PaletaForm()
     return render(request, 'mi_primer_app/crear_paleta.html', {'form': form})
@@ -213,28 +222,15 @@ def detalle_paleta(request, pk):
             comentario.post = paleta
             comentario.author = request.user
             comentario.save()
-            return redirect('detalle_paleta', pk=paleta.pk)
+            return redirect('detalle-paleta', pk=paleta.pk)
     else:
         form = ComentarioForm()
     return render(request, 'mi_primer_app/detalle_paleta.html', {'paleta': paleta, 'comentarios': comentarios, 'form': form})
 
-class EliminarPaletaView(DeleteView):
-    model = Paleta
-    template_name = 'mi_primer_app/eliminar_paleta.html'
-    success_url = reverse_lazy('mi_primer_app:listar_paletas')
-
-def eliminar_paleta(request):
-    return HttpResponse("Paleta eliminada")
-
-def paletas(request):
-    query = request.GET.get('q')
-    if query:
-        paletas_list = Paleta.objects.filter(title__icontains=query)
-    else:
-        paletas_list = Paleta.objects.all()
-
-    paginator = Paginator(paletas_list, 6)  # 6 paletas por página
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-
-    return render(request, 'mi_primer_app/listar_paletas.html', {'page_obj': page_obj, 'paletas': page_obj})
+@login_required
+def eliminar_paleta(request, pk):
+    paleta = get_object_or_404(Paleta, pk=pk)
+    if request.method == 'POST':
+        paleta.delete()
+        return redirect('listar-paletas')  # Redirige a listar_paletas
+    return render(request, 'mi_primer_app/eliminar_paleta.html', {'paleta': paleta})

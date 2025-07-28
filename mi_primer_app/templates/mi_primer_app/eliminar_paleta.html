@@ -1,11 +1,32 @@
-{% extends 'padre.html' %}
-{% block content %}
-  <h2>Eliminar Paleta</h2>
-  <p>¿Estás seguro de que deseas eliminar la paleta <strong>{{ object.title }}</strong>?</p>
+{% extends "padre.html" %}
+{% load static %}
 
-  <form method="POST">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-danger">Eliminar</button>
-    <a href="{% url 'listar-paletas' %}" class="btn btn-secondary">Cancelar</a>
-  </form>
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow">
+        <div class="card-body text-center">
+            <h2 class="mb-4 text-danger">¿Estás seguro de que deseas eliminar esta paleta?</h2>
+            
+            <h4 class="text-secondary">{{ paleta.title }}</h4>
+            <p><strong>Precio:</strong> ${{ paleta.price }}</p>
+            <p><strong>Condición:</strong> {{ paleta.get_condition_display }}</p>
+
+            {% if paleta.image %}
+                <img src="{{ paleta.image.url }}" alt="{{ paleta.title }}" class="img-fluid rounded my-3" style="max-height: 300px;">
+            {% endif %}
+
+            <form method="POST" onsubmit="return confirmDelete();">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+                <a href="{% url 'listar-paletas' %}" class="btn btn-secondary ms-2">Cancelar</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    function confirmDelete() {
+        return confirm("¿Estás seguro de que deseas eliminar esta paleta? Esta acción no se puede deshacer.");
+    }
+</script>
 {% endblock %}

@@ -3,7 +3,7 @@ from . import views
 
 from mi_primer_app.views import (
     AutoCreateView, AutoListView, AutoUpdateView, AutoDeleteView, AutoDetailView,
-    paletas, saludo, saludo_con_template, crear_familiar, inicio, crear_curso,
+    saludo, saludo_con_template, crear_familiar, inicio, crear_curso,
     crear_estudiante, cursos, buscar_cursos, crear_ropa, buscar_ropa,
     crear_celular, buscar_celulares, celulares, estudiantes, buscar_estudiantes, eliminar_paleta, crear_paleta, detalle_paleta, listar_paletas
 )
@@ -31,10 +31,8 @@ urlpatterns = [
     path('detalle-auto/<int:pk>/', AutoDetailView.as_view(), name='detalle-auto'),
     path('editar-auto/<int:pk>/', AutoUpdateView.as_view(), name='editar-auto'),
     path('eliminar-auto/<int:pk>/', AutoDeleteView.as_view(), name='eliminar-auto'),
-    path('paletas/', views.paletas, name='listar-paletas'),
+    path('paletas/', views.listar_paletas, name='listar-paletas'),  # nombre que usas para listar
     path('paleta/nueva/', views.crear_paleta, name='crear-paleta'),
     path('paleta/<int:pk>/', views.detalle_paleta, name='detalle-paleta'),
-    path('eliminar_paleta/', eliminar_paleta, name='eliminar_paleta'),
-]
-
+    path('paleta/<int:pk>/eliminar/', views.eliminar_paleta, name='eliminar-paleta'),
 ]
