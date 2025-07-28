@@ -223,6 +223,9 @@ class EliminarPaletaView(DeleteView):
     template_name = 'mi_primer_app/eliminar_paleta.html'
     success_url = reverse_lazy('mi_primer_app:listar_paletas')
 
+def eliminar_paleta(request):
+    return HttpResponse("Paleta eliminada")
+
 def paletas(request):
     query = request.GET.get('q')
     if query:

@@ -34,5 +34,7 @@ urlpatterns = [
     path('paletas/', views.paletas, name='listar-paletas'),
     path('paleta/nueva/', views.crear_paleta, name='crear-paleta'),
     path('paleta/<int:pk>/', views.detalle_paleta, name='detalle-paleta'),
-    path('paletas/<int:pk>/eliminar/', EliminarPaletaView.as_view(), name='eliminar-paleta'),
+    path('eliminar_paleta/', eliminar_paleta, name='eliminar_paleta'),
+]
+
 ]
