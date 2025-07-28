@@ -35,4 +35,5 @@ urlpatterns = [
     path('paleta/nueva/', views.crear_paleta, name='crear-paleta'),
     path('paleta/<int:pk>/', views.detalle_paleta, name='detalle-paleta'),
     path('paleta/<int:pk>/eliminar/', views.eliminar_paleta, name='eliminar-paleta'),
+    path('paleta/<int:pk>/editar/', views.editar_paleta, name='editar-paleta'),
 ]

@@ -10,7 +10,7 @@ from django.core.paginator import Paginator
 from .models import Familiar, Curso, Estudiante, Ropa, Celular, Auto, Paleta, Comentario
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseForbidden
 
 from .forms import CursoForm, EstudianteForm, RopaForm, CelularForm, AutoForm
 
@@ -230,7 +230,25 @@ def detalle_paleta(request, pk):
 @login_required
 def eliminar_paleta(request, pk):
     paleta = get_object_or_404(Paleta, pk=pk)
+    if paleta.author != request.user:
+        return HttpResponseForbidden("No tienes permiso para eliminar esta paleta.")
+
     if request.method == 'POST':
         paleta.delete()
-        return redirect('listar-paletas')  # Redirige a listar_paletas
+        return redirect('listar-paletas')
+
     return render(request, 'mi_primer_app/eliminar_paleta.html', {'paleta': paleta})
+
+@login_required
+def editar_paleta(request, pk):
+    paleta = get_object_or_404(Paleta, pk=pk, author=request.user)  # solo suya
+
+    if request.method == 'POST':
+        form = PaletaForm(request.POST, request.FILES, instance=paleta)
+        if form.is_valid():
+            form.save()
+            return redirect('detalle-paleta', pk=paleta.pk)
+    else:
+        form = PaletaForm(instance=paleta)
+
+    return render(request, 'mi_primer_app/editar_paleta.html', {'form': form, 'paleta': paleta})
