@@ -1,5 +1,6 @@
 from django import forms
 from .models import Auto
+from .models import Paleta, Comentario
 
 class CursoForm(forms.Form):
     nombre = forms.CharField()
@@ -37,3 +38,13 @@ class AutoForm(forms.ModelForm):
         widgets = {
             'descripcion': forms.Textarea(attrs={'rows': 3, 'cols': 40}),
         }
+
+class PaletaForm(forms.ModelForm):
+    class Meta:
+        model = Paleta
+        fields = ['title', 'description', 'price', 'condition', 'image']
+
+class ComentarioForm(forms.ModelForm):
+    class Meta:
+        model = Comentario
+        fields = ['content']

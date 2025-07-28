@@ -1,8 +1,14 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Paleta, Comentario
+from .forms import PaletaForm, ComentarioForm
+from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 
-from .models import Familiar, Curso, Estudiante, Ropa, Celular, Auto
+from .models import Familiar, Curso, Estudiante, Ropa, Celular, Auto, Paleta, Comentario
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from django.http import HttpResponse
 
@@ -179,3 +185,53 @@ class AutoDetailView(DetailView):
     model = Auto
     template_name = 'mi_primer_app/detalle_auto.html'
     context_object_name = 'auto'
+
+def listar_paletas(request):
+    paletas = Paleta.objects.all().order_by('-created_at')
+    return render(request, 'mi_primer_app/listar_paletas.html', {'paletas': paletas})
+
+@login_required
+def crear_paleta(request):
+    if request.method == 'POST':
+        form = PaletaForm(request.POST, request.FILES)
+        if form.is_valid():
+            paleta = form.save(commit=False)
+            paleta.author = request.user
+            paleta.save()
+            return redirect('listar-paletas')
+    else:
+        form = PaletaForm()
+    return render(request, 'mi_primer_app/crear_paleta.html', {'form': form})
+
+def detalle_paleta(request, pk):
+    paleta = get_object_or_404(Paleta, pk=pk)
+    comentarios = paleta.comentarios.all()
+    if request.method == 'POST':
+        form = ComentarioForm(request.POST)
+        if form.is_valid():
+            comentario = form.save(commit=False)
+            comentario.post = paleta
+            comentario.author = request.user
+            comentario.save()
+            return redirect('detalle_paleta', pk=paleta.pk)
+    else:
+        form = ComentarioForm()
+    return render(request, 'mi_primer_app/detalle_paleta.html', {'paleta': paleta, 'comentarios': comentarios, 'form': form})
+
+class EliminarPaletaView(DeleteView):
+    model = Paleta
+    template_name = 'mi_primer_app/eliminar_paleta.html'
+    success_url = reverse_lazy('mi_primer_app:listar_paletas')
+
+def paletas(request):
+    query = request.GET.get('q')
+    if query:
+        paletas_list = Paleta.objects.filter(title__icontains=query)
+    else:
+        paletas_list = Paleta.objects.all()
+
+    paginator = Paginator(paletas_list, 6)  # 6 paletas por página
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'mi_primer_app/listar_paletas.html', {'page_obj': page_obj, 'paletas': page_obj})

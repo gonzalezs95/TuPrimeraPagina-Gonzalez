@@ -1,0 +1,26 @@
+{% extends 'padre.html' %}
+{% block content %}
+  <h2>{{ paleta.title }}</h2>
+  {% if paleta.image %}
+    <img src="{{ paleta.image.url }}" alt="{{ paleta.title }}" style="max-width: 300px;">
+  {% endif %}
+  <p><strong>Precio:</strong> {{ paleta.price }}</p>
+  <p><strong>Condición:</strong> {{ paleta.get_condition_display }}</p>
+  <a href="{% url 'listar-paletas' %}" class="btn btn-secondary">Volver</a>
+
+  <!-- Comentarios -->
+  <h4>Comentarios</h4>
+  {% for comentario in comentarios %}
+    <p><strong>{{ comentario.author }}</strong>: {{ comentario.text }}</p>
+  {% empty %}
+    <p>No hay comentarios aún.</p>
+  {% endfor %}
+
+  <!-- Formulario de comentario -->
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Agregar comentario</button>
+  </form>
+{% endblock %}
+

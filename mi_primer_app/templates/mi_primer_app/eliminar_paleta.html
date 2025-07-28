@@ -1,0 +1,11 @@
+{% extends 'padre.html' %}
+{% block content %}
+  <h2>Eliminar Paleta</h2>
+  <p>¿Estás seguro de que deseas eliminar la paleta <strong>{{ object.title }}</strong>?</p>
+
+  <form method="POST">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Eliminar</button>
+    <a href="{% url 'listar-paletas' %}" class="btn btn-secondary">Cancelar</a>
+  </form>
+{% endblock %}

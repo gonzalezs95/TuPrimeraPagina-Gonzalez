@@ -1,0 +1,48 @@
+{% extends "padre.html" %}
+{% load static %}
+
+{% block content %}
+<h2 class="text-center mt-4">Paletas disponibles</h2>
+
+<!-- Formulario de búsqueda -->
+<form method="get" class="d-flex justify-content-center mt-3 mb-4">
+    <input type="text" name="q" class="form-control w-50 me-2" placeholder="Buscar por título..." value="{{ request.GET.q }}">
+    <button type="submit" class="btn btn-outline-primary">Buscar</button>
+</form>
+
+<!-- Tarjetas de paletas -->
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    {% for paleta in paletas %}
+    <div class="col">
+        <div class="card h-100 shadow">
+            {% if paleta.image %}
+            <img src="{{ paleta.image.url }}" class="card-img-top" alt="{{ paleta.title }}">
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title">{{ paleta.title }}</h5>
+                <p class="card-text">
+                    Precio: <strong>${{ paleta.price }}</strong><br>
+                    Condición: {{ paleta.get_condition_display }}
+                </p>
+            </div>
+            <div class="card-footer text-center">
+                <a href="{% url 'detalle-paleta' paleta.pk %}" class="btn btn-sm btn-info">Ver</a>
+                <a href="{% url 'eliminar-paleta' paleta.pk %}" class="btn btn-sm btn-danger">Eliminar</a>
+
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col">
+        <div class="alert alert-warning text-center w-100">
+            No se encontraron paletas.
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- Botón crear -->
+<div class="text-center mt-4 mb-5">
+    <a href="{% url 'crear-paleta' %}" class="btn btn-success">Crear nueva paleta</a>
+</div>
+{% endblock %}

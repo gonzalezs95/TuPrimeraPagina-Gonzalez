@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'mi_primer_app',  # Añadimos nuestra aplicación personalizada
     'usuarios',
-    'tienda_padel' # Añadimos la aplicación de tienda de pádel
 ]
 
 MIDDLEWARE = [
